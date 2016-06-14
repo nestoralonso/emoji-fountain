@@ -1,0 +1,34 @@
+{
+  "name": "topic_4_html5_api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "",
+  "scripts": {
+    "clean": "rimraf dist",
+    "build-canvas": "browserify src/main-canvas.js -t babelify --outfile dist/bundle-canvas.js",
+    "build:dev": "rollup src/main.js | grep -vE '^export\\b' > dist/bundle-dev.js",
+    "watch": "onchange src -- npm run build:dev",
+    "build-alt": "rollup -f iife -i src/main.js -o dist/bundle-dev.js -m dist/bundle-dev.js.map"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-preset-es2015": "^6.9.0",
+    "babelify": "^7.3.0",
+    "browserify": "^13.0.1",
+    "onchange": "^2.5.0",
+    "rimraf": "2.5.2",
+    "rollup": "0.26.7",
+    "rollup-plugin-buble": "^0.10.0",
+    "rollup-plugin-commonjs": "^3.0.0",
+    "rollup-plugin-node-resolve": "^1.7.0",
+    "rollup-plugin-npm": "^1.4.0",
+    "rollup-plugin-replace": "^1.1.0",
+    "rollup-plugin-uglify": "^0.3.1"
+  },
+  "dependencies": {
+    "remarkable": "^1.6.2"
+  }
+}
