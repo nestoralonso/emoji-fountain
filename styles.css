@@ -1,0 +1,64 @@
+.results-box {
+    border: 1px solid lightgray;
+}
+
+.results-text {
+    min-height: 15em;
+    overflow-y: scroll;
+}
+
+.canvas-container {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background-color: lightgreen;
+}
+
+.myCanvas {
+    font: 16px/1.4 Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    background-color: lightgrey;
+    margin: 0 auto;
+}
+
+.panel-drop {
+    margin-top: 2em;
+}
+
+.drop-files-here {
+    border: 1px dashed #666;
+    width: 100%;
+    height: 10em;
+}
+
+.drop-files-here.hover
+{
+	color: #f00;
+	border-color: #f00;
+	border-style: solid;
+	box-shadow: inset 0 3px 4px #888;
+}
+
+.drop-files-here .glyphicon {
+    color: #666;
+    font-size: 12rem;
+    text-align: center;
+    width: 100%;
+}
+
+.map-reduce-emoji {
+    font-size: 5em;
+}
+
+.emoji-foo {
+    transition: transform 200ms ease-out;
+    -webkit-filter: drop-shadow(4px 4px 2px rgba(0,0,0,0.9));
+    filter: drop-shadow(4px 4px 2px rgba(0,0,0,0.9));
+}
+
+.emoji-foo:hover {
+    transform: scale(3.5);
+}
+
+.peru-flag {
+    box-shadow: 1px 1px 3px 3px #ccc;
+}

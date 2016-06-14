@@ -1,0 +1,11 @@
+.idea
+node_modules
+todos.txt
+*.log
+testeo/
+bower_components/
+typings
+tmp
+.DS_Store
+!.gitkeep
+*.bak
