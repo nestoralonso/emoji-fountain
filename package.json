@@ -1,14 +1,13 @@
 {
-  "name": "topic_4_html5_api",
+  "name": "canvas test",
   "version": "1.0.0",
   "description": "",
   "main": "",
   "scripts": {
     "clean": "rimraf dist",
-    "build-canvas": "browserify src/main-canvas.js -t babelify --outfile dist/bundle-canvas.js",
-    "build:dev": "rollup src/main.js | grep -vE '^export\\b' > dist/bundle-dev.js",
+    "build-sify": "browserify src/main-canvas.js -t babelify --outfile dist/bundle-canvas.js",
     "watch": "onchange src -- npm run build:dev",
-    "build-alt": "rollup -f iife -i src/main.js -o dist/bundle-dev.js -m dist/bundle-dev.js.map"
+    "build": "rollup -f iife -i src/main-canvas.js -o dist/bundle-canvas.js -m dist/bundle-canvas.js.map -n mod_canvas"
   },
   "keywords": [],
   "author": "",
