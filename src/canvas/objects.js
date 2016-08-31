@@ -53,10 +53,11 @@ export function createText(ctx, {
   text='M',
   fillColor=[250, 220, 255, 1],
 }={}) {
-
+  const fillStyle = `rgba(${fillColor.join(',')})`;
+  const font = `${size}px sanserif`;
   let draw = (pos) => {
-    ctx.fillStyle = `rgba(${fillColor.join(',')})`;
-    ctx.font = `${size}px sanserif`;
+    ctx.fillStyle = fillStyle;
+    ctx.font = font;
     ctx.fillText(text, pos.x, pos.y);
   }
 

@@ -54,10 +54,11 @@
     text='M',
     fillColor=[250, 220, 255, 1],
   }={}) {
-
+    const fillStyle = `rgba(${fillColor.join(',')})`;
+    const font = `${size}px sanserif`;
     let draw = (pos) => {
-      ctx.fillStyle = `rgba(${fillColor.join(',')})`;
-      ctx.font = `${size}px sanserif`;
+      ctx.fillStyle = fillStyle;
+      ctx.font = font;
       ctx.fillText(text, pos.x, pos.y);
     }
 
@@ -184,7 +185,7 @@
     return ctx;
   };
 
-  const NUM_PARTICLES = 200;
+  const NUM_PARTICLES = 20;
 
   // Initialize and array with null, because the map function doesn't
   // iterates over undefined
@@ -254,10 +255,8 @@
 
   let frameIdx = 0;
   function updateFrame() {
-    // ctx.globalCompositeOperation = 'destination-over';
-    // ctx.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.6)';
-    ctx.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    //ctx.globalCompositeOperation = 'destination-over';
+    ctx.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
     for(let obj of objects) {
       obj.draw(obj.transform.pos);
@@ -279,7 +278,6 @@
   function main() {
     const canvas = document.getElementById('myCanvas');
     const canvasContainer = document.getElementById('canvas-container');
-    // canvas.addEventListener('click', (e) => { newRandomObject(e.offsetX, e.offsetY); });
     start(canvas, canvasContainer.clientWidth, canvasContainer.clientHeight);
   }
 
