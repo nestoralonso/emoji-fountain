@@ -16,13 +16,7 @@ const emojiRanges = [
     [0x0001f400, 0x0001f43e],
     [0x0001f440, 0x0001f440],
     [0x0001f442, 0x0001f4f7],
-    [0x0001f4f9, 0x0001f4fc],
-/**
- * Doesnt contain much characters in the default font    
-    [0x0001f500, 0x0001f53d],
-    [0x0001f540, 0x0001f543],
-    [0x0001f550, 0x0001f567],
-*/    
+    [0x0001f4f9, 0x0001f4fc]
 ];
 
 export function randomEmoji() {
@@ -30,12 +24,53 @@ export function randomEmoji() {
   return String.fromCodePoint(randomInt(randRange[0], randRange[1]));
 }
 
+/**
+ *
+ *
+ * @param {boolean} [alpha=false]
+ * @returns {Array} vector4 containing RGBA
+ */
 export function randomColor(alpha=false) {
-  const alphaVal = alpha ? 0.5 + Math.random() / 2 : 1;   
+  const alphaVal = alpha ? 0.5 + Math.random() / 2 : 1;
   return [
     randomInt(60, 255),
     randomInt(60, 255),
     randomInt(60, 255),
     alphaVal,
   ];
+}
+
+function measureText(text, fontSize, fontFamily) {
+  let w, h, div = measureText.div || document.createElement('div');
+  div.style.font = fontSize + 'px/' + fontSize + 'px ' + fontFamily;
+  div.style.padding = '0';
+  div.style.margin = '0';
+  div.style.position = 'absolute';
+  div.style.visibility = 'hidden';
+  div.innerHTML = text;
+  if (!measureText.div) document.body.appendChild(div);
+  w = div.clientWidth;
+  h = div.clientHeight;
+  measureText.div = div;
+  return { width: w, height: h };
+}
+
+export function createTextBuffer(text='A', fontSize=24, fontFamily='Arial') {
+    // Create offscreen buffer for our text rendering.
+    // This way all we have to do is draw our buffer to
+    // the main canvas rather than drawing text each frame.
+    const textBuffer = document.createElement('canvas');
+
+    const m = measureText(text, fontSize, fontFamily);
+    // Resize the buffer.
+    textBuffer.width = m.width;
+    textBuffer.height = m.height;
+    // Render to our buffer.
+    const ctx = textBuffer.getContext('2d');
+    ctx.font = fontSize + 'px/' + fontSize + 'px ' + fontFamily;
+    // Set the baseline to middle and offset by half the text height.
+    ctx.textBaseline = 'middle';
+    ctx.fillText(text, 0, m.height/2);
+
+    return textBuffer;
 }

@@ -1,6 +1,83 @@
 (function () {
   'use strict';
 
+  function randomInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  function randIndex(arr) {
+      return randomInt(0, arr.length - 1);
+  }
+
+  const emojiRanges = [
+      [0x0001f330, 0x0001f335],
+      [0x0001f337, 0x0001f37c],
+      [0x0001f380, 0x0001f393],
+      [0x0001f3a0, 0x0001f3c4],
+      [0x0001f3c6, 0x0001f3ca],
+      [0x0001f3e0, 0x0001f3f0],
+      [0x0001f400, 0x0001f43e],
+      [0x0001f440, 0x0001f440],
+      [0x0001f442, 0x0001f4f7],
+      [0x0001f4f9, 0x0001f4fc]
+  ];
+
+  function randomEmoji() {
+    const randRange = emojiRanges[randIndex(emojiRanges)];
+    return String.fromCodePoint(randomInt(randRange[0], randRange[1]));
+  }
+
+  /**
+   *
+   *
+   * @param {boolean} [alpha=false]
+   * @returns {Array} vector4 containing RGBA
+   */
+  function randomColor(alpha=false) {
+    const alphaVal = alpha ? 0.5 + Math.random() / 2 : 1;
+    return [
+      randomInt(60, 255),
+      randomInt(60, 255),
+      randomInt(60, 255),
+      alphaVal,
+    ];
+  }
+
+  function measureText(text, fontSize, fontFamily) {
+    let w, h, div = measureText.div || document.createElement('div');
+    div.style.font = fontSize + 'px/' + fontSize + 'px ' + fontFamily;
+    div.style.padding = '0';
+    div.style.margin = '0';
+    div.style.position = 'absolute';
+    div.style.visibility = 'hidden';
+    div.innerHTML = text;
+    if (!measureText.div) document.body.appendChild(div);
+    w = div.clientWidth;
+    h = div.clientHeight;
+    measureText.div = div;
+    return { width: w, height: h };
+  }
+
+  function createTextBuffer(text='A', fontSize=24, fontFamily='Arial') {
+      // Create offscreen buffer for our text rendering.
+      // This way all we have to do is draw our buffer to
+      // the main canvas rather than drawing text each frame.
+      const textBuffer = document.createElement('canvas');
+
+      const m = measureText(text, fontSize, fontFamily);
+      // Resize the buffer.
+      textBuffer.width = m.width;
+      textBuffer.height = m.height;
+      // Render to our buffer.
+      const ctx = textBuffer.getContext('2d');
+      ctx.font = fontSize + 'px/' + fontSize + 'px ' + fontFamily;
+      // Set the baseline to middle and offset by half the text height.
+      ctx.textBaseline = 'middle';
+      ctx.fillText(text, 0, m.height/2);
+
+      return textBuffer;
+  }
+
   const PI2 = 2 * Math.PI;
 
   function createRectangle(ctx, {
@@ -55,11 +132,9 @@
     fillColor=[250, 220, 255, 1],
   }={}) {
     const fillStyle = `rgba(${fillColor.join(',')})`;
-    const font = `${size}px sanserif`;
+    const textBuffer = createTextBuffer(text, size, 'sanserif');
     let draw = (pos) => {
-      ctx.fillStyle = fillStyle;
-      ctx.font = font;
-      ctx.fillText(text, pos.x, pos.y);
+      ctx.drawImage(textBuffer, pos.x, pos.y);
     }
 
     return {
@@ -102,6 +177,10 @@
     transform.pos.x += transform.vel.x;
     transform.pos.y += transform.vel.y;
 
+    // round to int for performance reasons
+    transform.pos.x = transform.pos.x | 0;
+    transform.pos.y = transform.pos.y | 0;
+
     transform.vel.x += transform.accel.x;
     transform.vel.y += transform.accel.y;
   }
@@ -129,47 +208,6 @@
 
   function scalarMul(scalar, v) {
     return {x: scalar * v.x, y: scalar * v.y};
-  }
-
-  function randomInt(min, max) {
-      return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
-
-  function randIndex(arr) {
-      return randomInt(0, arr.length - 1);
-  }
-
-  const emojiRanges = [
-      [0x0001f330, 0x0001f335],
-      [0x0001f337, 0x0001f37c],
-      [0x0001f380, 0x0001f393],
-      [0x0001f3a0, 0x0001f3c4],
-      [0x0001f3c6, 0x0001f3ca],
-      [0x0001f3e0, 0x0001f3f0],
-      [0x0001f400, 0x0001f43e],
-      [0x0001f440, 0x0001f440],
-      [0x0001f442, 0x0001f4f7],
-      [0x0001f4f9, 0x0001f4fc],
-  /**
-   * Doesnt contain much characters in the default font    
-      [0x0001f500, 0x0001f53d],
-      [0x0001f540, 0x0001f543],
-      [0x0001f550, 0x0001f567],
-  */    
-  ];
-
-  function randomEmoji() {
-    const randRange = emojiRanges[randIndex(emojiRanges)];
-    return String.fromCodePoint(randomInt(randRange[0], randRange[1]));
-  }
-
-  function randomColor() {
-    return [
-      randomInt(60, 255),
-      randomInt(60, 255),
-      randomInt(60, 255),
-      0.5 + Math.random() / 2
-    ];
   }
 
   let ctx;

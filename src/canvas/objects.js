@@ -1,5 +1,4 @@
-'use strict';
-
+import * as utils  from './utils';
 const PI2 = 2 * Math.PI;
 
 export function createRectangle(ctx, {
@@ -54,11 +53,9 @@ export function createText(ctx, {
   fillColor=[250, 220, 255, 1],
 }={}) {
   const fillStyle = `rgba(${fillColor.join(',')})`;
-  const font = `${size}px sanserif`;
+  const textBuffer = utils.createTextBuffer(text, size, 'sanserif');
   let draw = (pos) => {
-    ctx.fillStyle = fillStyle;
-    ctx.font = font;
-    ctx.fillText(text, pos.x, pos.y);
+    ctx.drawImage(textBuffer, pos.x, pos.y);
   }
 
   return {

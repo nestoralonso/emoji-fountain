@@ -6,8 +6,8 @@
   "scripts": {
     "clean": "rimraf dist",
     "build-sify": "browserify src/main-canvas.js -t babelify --outfile dist/bundle-canvas.js",
-    "watch": "onchange src -- npm run build:dev",
-    "build": "rollup -f iife -i src/main-canvas.js -o dist/bundle-canvas.js -m dist/bundle-canvas.js.map -n mod_canvas"
+    "start": "onchange src -- npm run build:dev",
+    "build:dev": "rollup -f iife -i src/main-canvas.js -o dist/bundle-canvas.js -m dist/bundle-canvas.js.map -n mod_canvas"
   },
   "keywords": [],
   "author": "",
