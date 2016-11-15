@@ -48,14 +48,12 @@ let start = (canvasNode, fullWidth, fullHeight) => {
     SCREEN_HEIGHT = canvasNode.height;
   }
   else {
-    console.log(fullWidth);
     canvasNode.width = fullWidth;
     canvasNode.height = fullHeight;
     SCREEN_WIDTH = fullWidth;
     SCREEN_HEIGHT = fullHeight;
   }
   ctx = initCanvas(canvasNode);
-  console.log('DEBUG ctx', ctx);
   objects = objects.map(x => newRandomObject(SCREEN_WIDTH / 2, SCREEN_HEIGHT));
   window.requestAnimationFrame(updateFrame);
 };

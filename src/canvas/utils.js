@@ -41,7 +41,7 @@ export function randomColor(alpha=false) {
 }
 
 function measureText(text, fontSize, fontFamily) {
-  let w, h, div = measureText.div || document.createElement('div');
+  let div = measureText.div || document.createElement('div');
   div.style.font = fontSize + 'px/' + fontSize + 'px ' + fontFamily;
   div.style.padding = '0';
   div.style.margin = '0';
@@ -49,8 +49,8 @@ function measureText(text, fontSize, fontFamily) {
   div.style.visibility = 'hidden';
   div.innerHTML = text;
   if (!measureText.div) document.body.appendChild(div);
-  w = div.clientWidth;
-  h = div.clientHeight;
+  let w = div.clientWidth;
+  let h = div.clientHeight;
   measureText.div = div;
   return { width: w, height: h };
 }
@@ -71,7 +71,7 @@ export function createTextBuffer(text='A', fontSize=24, fontFamily='Arial', fill
     ctx.fillStyle = fillStyle;
     // Set the baseline to middle and offset by half the text height.
     ctx.textBaseline = 'middle';
-    ctx.fillText(text, 0, m.height/2);
+    ctx.fillText(text, 0, m.height / 2);
 
     return textBuffer;
 }

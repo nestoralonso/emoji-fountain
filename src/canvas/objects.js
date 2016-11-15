@@ -50,9 +50,9 @@ export function createCircle(ctx, {
 export function createText(ctx, {
   size=20,
   text='M',
-  fillColor=[250, 220, 255, 1],
+  fillColor=[250, 220, 255],
 }={}) {
-  const fillStyle = `rgba(${fillColor.join(',')})`;
+  const fillStyle = `rgb(${fillColor.join(',')})`;
   const textBuffer = utils.createTextBuffer(text, size, 'Arial', fillStyle);
   let draw = (pos) => {
     ctx.drawImage(textBuffer, pos.x, pos.y);

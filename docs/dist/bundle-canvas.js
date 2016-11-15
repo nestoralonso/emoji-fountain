@@ -44,7 +44,7 @@
   }
 
   function measureText(text, fontSize, fontFamily) {
-    let w, h, div = measureText.div || document.createElement('div');
+    let div = measureText.div || document.createElement('div');
     div.style.font = fontSize + 'px/' + fontSize + 'px ' + fontFamily;
     div.style.padding = '0';
     div.style.margin = '0';
@@ -52,13 +52,13 @@
     div.style.visibility = 'hidden';
     div.innerHTML = text;
     if (!measureText.div) document.body.appendChild(div);
-    w = div.clientWidth;
-    h = div.clientHeight;
+    let w = div.clientWidth;
+    let h = div.clientHeight;
     measureText.div = div;
     return { width: w, height: h };
   }
 
-  function createTextBuffer(text='A', fontSize=24, fontFamily='Arial') {
+  function createTextBuffer(text='A', fontSize=24, fontFamily='Arial', fillStyle) {
       // Create offscreen buffer for our text rendering.
       // This way all we have to do is draw our buffer to
       // the main canvas rather than drawing text each frame.
@@ -71,9 +71,10 @@
       // Render to our buffer.
       const ctx = textBuffer.getContext('2d');
       ctx.font = fontSize + 'px/' + fontSize + 'px ' + fontFamily;
+      ctx.fillStyle = fillStyle;
       // Set the baseline to middle and offset by half the text height.
       ctx.textBaseline = 'middle';
-      ctx.fillText(text, 0, m.height/2);
+      ctx.fillText(text, 0, m.height / 2);
 
       return textBuffer;
   }
@@ -129,10 +130,10 @@
   function createText(ctx, {
     size=20,
     text='M',
-    fillColor=[250, 220, 255, 1],
+    fillColor=[250, 220, 255],
   }={}) {
-    const fillStyle = `rgba(${fillColor.join(',')})`;
-    const textBuffer = createTextBuffer(text, size, 'sanserif');
+    const fillStyle = `rgb(${fillColor.join(',')})`;
+    const textBuffer = createTextBuffer(text, size, 'Arial', fillStyle);
     let draw = (pos) => {
       ctx.drawImage(textBuffer, pos.x, pos.y);
     }
@@ -239,14 +240,12 @@
       SCREEN_HEIGHT = canvasNode.height;
     }
     else {
-      console.log(fullWidth);
       canvasNode.width = fullWidth;
       canvasNode.height = fullHeight;
       SCREEN_WIDTH = fullWidth;
       SCREEN_HEIGHT = fullHeight;
     }
     ctx = initCanvas(canvasNode);
-    console.log('DEBUG ctx', ctx);
     objects = objects.map(x => newRandomObject(SCREEN_WIDTH / 2, SCREEN_HEIGHT));
     window.requestAnimationFrame(updateFrame);
   };
