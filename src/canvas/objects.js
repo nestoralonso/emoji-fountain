@@ -101,6 +101,10 @@ export function updatePhysics(transform, screenWidth, screenHeight) {
   transform.pos.x += transform.vel.x;
   transform.pos.y += transform.vel.y;
 
+  // round to int for performance reasons
+  transform.pos.x = transform.pos.x | 0;
+  transform.pos.y = transform.pos.y | 0;
+
   transform.vel.x += transform.accel.x;
   transform.vel.y += transform.accel.y;
 }

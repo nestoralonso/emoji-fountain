@@ -30,11 +30,12 @@ export function randomEmoji() {
   return String.fromCodePoint(randomInt(randRange[0], randRange[1]));
 }
 
-export function randomColor() {
+export function randomColor(alpha=false) {
+  const alphaVal = alpha ? 0.5 + Math.random() / 2 : 1;   
   return [
     randomInt(60, 255),
     randomInt(60, 255),
     randomInt(60, 255),
-    0.5 + Math.random() / 2
+    alphaVal,
   ];
 }
