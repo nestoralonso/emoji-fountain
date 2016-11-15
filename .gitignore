@@ -1,9 +1,8 @@
 .idea
 node_modules
-todos.txt
 *.log
 testeo/
-bower_components/
+/dist/
 typings
 tmp
 .DS_Store
